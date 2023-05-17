@@ -89,7 +89,7 @@ const googleConnector = new GoogleSocialWalletConnector({
   },
 });
 const wagmiConfig = createClient({
-  autoConnect: true,
+  autoConnect: false,
   connectors: [
     googleConnector,
     // googleWallet({
@@ -115,7 +115,13 @@ const WalletProvider = ({
   return (
     <WalletContext.Provider value={contextProvider}>
       <WagmiConfig client={wagmiConfig}>
-        <SessionProvider session={session}>{children}</SessionProvider>
+        <SessionProvider
+          session={session}
+          refetchInterval={0} // no session polling
+          //   refetchOnWindowFocus={false}
+        >
+          {children}
+        </SessionProvider>
       </WagmiConfig>
     </WalletContext.Provider>
   );
